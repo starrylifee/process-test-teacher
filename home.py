@@ -195,16 +195,19 @@ if input_method:
     teacher_email = st.text_input("교사 이메일 입력", help="학생이 답변을 제출하면 이 이메일로 결과가 전송됩니다.")
 
     if st.button("💾 문제 저장"):
-        if not all(st.session_state.questions) or not st.session_state.activity_code:
-            display_error("모든 필수 항목을 입력해주세요.")
+        if not st.session_state.activity_code:
+            display_error("활동 코드를 입력해주세요.")
         else:
             current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             row = [
                 current_time,
                 st.session_state.activity_code,
-                st.session_state.questions[0], st.session_state.get("image1_url", ""),
-                st.session_state.questions[1], st.session_state.get("image2_url", ""),
-                st.session_state.questions[2], st.session_state.get("image3_url", ""),
+                st.session_state.questions[0] or "",  # 답변이 없는 경우 빈 문자열로 저장
+                st.session_state.get("image1_url", ""),
+                st.session_state.questions[1] or "",  # 답변이 없는 경우 빈 문자열로 저장
+                st.session_state.get("image2_url", ""),
+                st.session_state.questions[2] or "",  # 답변이 없는 경우 빈 문자열로 저장
+                st.session_state.get("image3_url", ""),
                 teacher_email
             ]
             try:
